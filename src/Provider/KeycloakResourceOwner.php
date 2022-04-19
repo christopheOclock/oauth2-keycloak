@@ -62,4 +62,14 @@ class KeycloakResourceOwner implements ResourceOwnerInterface
     {
         return $this->response;
     }
+
+    /**
+     * Return response attribute
+     *
+     * @return array
+     */
+    public function __get($searched_attribute)
+    {
+        return $this->response[$searched_attribute] ?: null; 
+    }
 }
