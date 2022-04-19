@@ -68,18 +68,14 @@ class KeycloakResourceOwner implements ResourceOwnerInterface
      *
      * @return array
      */
-    public function __get($searched_attribute)
+    public function __call($searched_attribute, $args)
     {
-        return $this->response[$searched_attribute] ?: null; 
-    }
+        $searched_attribute = lcfirst(substr($searched_attribute, 3));
 
-        /**
-     * Return response attribute
-     *
-     * @return array
-     */
-    public function __call($searched_attribute)
-    {
-        return $this->response[$searched_attribute] ?: null; 
+        $searched_attribute = preg_replace_callback('/[A-Z0-9]/', function ($match) {
+            return '_' . strtolower($match[0]);
+        }, $searched_attribute);
+
+        return $this->response[$searched_attribute] ?? null;
     }
 }
